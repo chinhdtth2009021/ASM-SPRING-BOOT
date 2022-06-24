@@ -1,8 +1,11 @@
 package com.example.asmpringboot.entity;
 
+import com.example.asmpringboot.entity.enums.RoadStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -18,8 +21,14 @@ public class Street {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String district;
-    private String founding;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="district_id", nullable = false)
+    private Districts district;
+    @Column(updatable = false, insertable = false)
+    private int district_id;
     private String description;
-    private int status;
+    private LocalDate roadEstablishmentDate;
+    @Enumerated(EnumType.ORDINAL)
+    private RoadStatus status;
 }
